@@ -4,7 +4,9 @@ import { AppService } from './app.service';
 import { ChargingStationModule } from './charging_station/charging_station.module';
 import * as dotenv from 'dotenv';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ChargingStation } from './charging_station/entity';
+import { ChargingStation } from './charging_station/charging_station.entity';
+import { ChargingStationTypeModule } from './charging_station_type/charging_station_type.module';
+import { ChargingStationType } from './charging_station_type/charging_station.entity';
 
 dotenv.config();
 
@@ -19,9 +21,10 @@ dotenv.config();
       database: process.env.DB_NAME || 'charger',
       synchronize: true,
       logging: false,
-      entities: [ChargingStation]
+      entities: [ChargingStation, ChargingStationType]
 
-  })],
+  }),
+    ChargingStationTypeModule],
   controllers: [AppController],
   providers: [AppService],
 })
