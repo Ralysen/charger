@@ -1,4 +1,4 @@
-import { ChargingStationType } from "src/charging_station_type/charging_station.entity"
+import { ChargingStationType } from "src/charging-station-type/charging-station-type.entity"
 
 export interface CreateChargingStationDTO {
     name: string

@@ -1,4 +1,4 @@
-import { ChargingStationType } from "src/charging_station_type/charging_station.entity";
+import { ChargingStationType } from "src/charging-station-type/charging-station-type.entity";
 import { Connector } from "src/connector/connector.entity";
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, ManyToOne } from "typeorm";
 

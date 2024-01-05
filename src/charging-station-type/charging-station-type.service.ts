@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ChargingStationType } from './charging_station.entity';
+import { ChargingStationType } from './charging-station-type.entity';
 import { Repository } from 'typeorm';
-import { CreateChargingStationTypeDTO } from './dto/charging_station_type_create_dto';
-import { UpdateChargingStationTypeDTO } from './dto/charging_station_type_update_dto';
+import { CreateChargingStationTypeDTO } from './dto/create-charging-station-type.dto';
+import { UpdateChargingStationTypeDTO } from './dto/update-charging-station-type.dto';
 
 @Injectable()
 export class ChargingStationTypeService {

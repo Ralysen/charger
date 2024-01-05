@@ -1,8 +1,8 @@
-import { StationCurrentType } from "../support/enums/station_current_type"
+import { StationTypeEnum } from "../support/enums/station-type.enum"
 
 export interface CreateChargingStationTypeDTO {
     name: string
     plug_count: number
     efficiency: number
-    current_type: StationCurrentType
+    current_type: StationTypeEnum
 }

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ChargingStationTypeController } from './charging_station_type.controller';
+import { ChargingStationTypeController } from './charging-station-type.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ChargingStationType } from './charging_station.entity';
-import { ChargingStationTypeService } from './charging_station_type.service';
+import { ChargingStationType } from './charging-station-type.entity';
+import { ChargingStationTypeService } from './charging-station-type.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ChargingStationType])],

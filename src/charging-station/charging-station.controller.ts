@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { ChargingStationService } from './charging_station.service';
-import { ChargingStation } from './charging_station.entity';
-import { CreateChargingStationDTO } from './dto/charging_station_dto';
-import { UpdateChargingStationDTO } from './dto/update_charging_station_dto';
+import { ChargingStationService } from './charging-station.service';
+import { ChargingStation } from './charging-station.entity';
+import { CreateChargingStationDTO } from './dto/create-charging-station.dto';
+import { UpdateChargingStationDTO } from './dto/update-charging-station.dto';
 
 
 @Controller('charging_station')

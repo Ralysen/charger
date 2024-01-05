@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Connector } from './connector.entity';
 import { privateDecrypt } from 'crypto';
 import { Repository } from 'typeorm';
-import { CreateConnectorDTO } from './dto/connector_create_dto';
-import { UpdateConnectorDTO } from './dto/connector_update_dto';
+import { CreateConnectorDTO } from './dto/create-connector.dto';
+import { UpdateConnectorDTO } from './dto/update-connector.dto';
 
 @Injectable()
 export class ConnectorService {

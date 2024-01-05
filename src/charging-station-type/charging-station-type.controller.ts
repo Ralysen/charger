@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { ChargingStationTypeService } from './charging_station_type.service';
-import { ChargingStationType } from './charging_station.entity';
-import { CreateChargingStationTypeDTO } from './dto/charging_station_type_create_dto';
-import { UpdateChargingStationTypeDTO } from './dto/charging_station_type_update_dto';
+import { ChargingStationTypeService } from './charging-station-type.service';
+import { ChargingStationType } from './charging-station-type.entity';
+import { CreateChargingStationTypeDTO } from './dto/create-charging-station-type.dto';
+import { UpdateChargingStationTypeDTO } from './dto/update-charging-station-type.dto';
 
 @Controller('station_type')
 export class ChargingStationTypeController {

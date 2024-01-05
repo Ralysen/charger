@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ConnectorService } from './connector.service';
 import { Connector } from './connector.entity';
-import { CreateConnectorDTO } from './dto/connector_create_dto';
-import { UpdateConnectorDTO } from './dto/connector_update_dto';
+import { CreateConnectorDTO } from './dto/create-connector.dto';
+import { UpdateConnectorDTO } from './dto/update-connector.dto';
 
 @Controller('connector')
 export class ConnectorController {

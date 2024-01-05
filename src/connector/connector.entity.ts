@@ -1,4 +1,4 @@
-import { ChargingStation } from "src/charging_station/charging_station.entity";
+import { ChargingStation } from "src/charging-station/charging-station.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

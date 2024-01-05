@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ChargingStationTypeService } from './charging_station_type.service';
+import { ChargingStationTypeService } from './charging-station-type.service';
 
 describe('ChargingStationTypeService', () => {
   let service: ChargingStationTypeService;
