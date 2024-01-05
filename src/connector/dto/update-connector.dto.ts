@@ -1,4 +1,4 @@
-export interface UpdateConnectorDTO {
+export class UpdateConnectorDTO {
     name?: string
     priority?: boolean
 }

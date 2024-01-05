@@ -1,6 +1,6 @@
 import { StationTypeEnum } from "../support/enums/station-type.enum"
 
-export interface CreateChargingStationTypeDTO {
+export class CreateChargingStationTypeDTO {
     name: string
     plug_count: number
     efficiency: number
