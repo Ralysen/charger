@@ -7,9 +7,12 @@ export class ChargingStation {
     id: string
 
     @Column()
-    device_id: string
+    name: string
 
     @Column('uuid')
+    device_id: string
+
+    @Column()
     ip_address: string
 
     @Column()

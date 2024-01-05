@@ -11,20 +11,21 @@ import { ChargingStationType } from './charging_station_type/charging_station.en
 dotenv.config();
 
 @Module({
-  imports: [ChargingStationModule,
+  imports: [
+    ChargingStationModule,
+    ChargingStationTypeModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
       port: Number(process.env.DB_PORT) || 5432,
       username: process.env.DB_USER || 'root',
       password: process.env.DB_PASSWORD || 'root',
-      database: process.env.DB_NAME || 'charger',
+      database: process.env.DB_NAME || 'postgres',
       synchronize: true,
       logging: false,
       entities: [ChargingStation, ChargingStationType]
-
-  }),
-    ChargingStationTypeModule],
+    })
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
