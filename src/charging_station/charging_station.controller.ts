@@ -5,7 +5,7 @@ import { CreateChargingStationDTO } from './dto/charging_station_dto';
 import { UpdateChargingStationDTO } from './dto/update_charging_station_dto';
 
 
-@Controller('charging-station')
+@Controller('charging_station')
 export class ChargingStationController {
     constructor(private readonly chargingStationService: ChargingStationService) {}
 

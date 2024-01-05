@@ -4,7 +4,7 @@ import { ChargingStationType } from './charging_station.entity';
 import { CreateChargingStationTypeDTO } from './dto/charging_station_type_create_dto';
 import { UpdateChargingStationTypeDTO } from './dto/charging_station_type_update_dto';
 
-@Controller('charging-station-type')
+@Controller('station_type')
 export class ChargingStationTypeController {
     constructor(private readonly chargingStationTypeService: ChargingStationTypeService) {}
 
