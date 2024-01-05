@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { StationTypeEnum } from './support/enums/station-type.enum'
+import { ChargingStationTypeCurrentType } from './enums/charging-station-type.current-type'
 import { ChargingStation } from "src/charging-station/charging-station.entity";
 
 @Entity()
@@ -18,10 +18,10 @@ export class ChargingStationType {
 
     @Column({
         type: 'enum',
-        enum: StationTypeEnum,
-        default: StationTypeEnum.AC
+        enum: ChargingStationTypeCurrentType,
+        default: ChargingStationTypeCurrentType.AC
     })
-    current_type: StationTypeEnum
+    current_type: typeof ChargingStationTypeCurrentType
 
     @OneToMany(() => ChargingStation, (chargingStation) => chargingStation.station_type)
     charging_stations: ChargingStation[]

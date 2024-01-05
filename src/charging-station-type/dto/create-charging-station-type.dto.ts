@@ -1,8 +1,8 @@
-import { StationTypeEnum } from "../support/enums/station-type.enum"
+import { ChargingStationTypeCurrentType } from "../enums/charging-station-type.current-type"
 
 export class CreateChargingStationTypeDTO {
     name: string
     plug_count: number
     efficiency: number
-    current_type: StationTypeEnum
+    current_type: typeof ChargingStationTypeCurrentType
 }
