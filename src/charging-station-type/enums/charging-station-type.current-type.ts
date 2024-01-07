@@ -1,4 +1,4 @@
 export const ChargingStationTypeCurrentType = {
-    AC: 'AC',
-    DC: 'DC',
-}
+  AC: 'AC',
+  DC: 'DC',
+};

@@ -9,7 +9,9 @@ describe('ChargingStationController', () => {
       controllers: [ChargingStationController],
     }).compile();
 
-    controller = module.get<ChargingStationController>(ChargingStationController);
+    controller = module.get<ChargingStationController>(
+      ChargingStationController,
+    );
   });
 
   it('should be defined', () => {

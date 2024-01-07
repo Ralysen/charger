@@ -1,4 +1,4 @@
 export class CreateConnectorDTO {
-    name: string
-    priority: boolean
+  name: string;
+  priority: boolean;
 }

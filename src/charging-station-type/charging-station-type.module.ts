@@ -7,6 +7,6 @@ import { ChargingStationTypeService } from './charging-station-type.service';
 @Module({
   imports: [TypeOrmModule.forFeature([ChargingStationType])],
   controllers: [ChargingStationTypeController],
-  providers: [ChargingStationTypeService]
+  providers: [ChargingStationTypeService],
 })
 export class ChargingStationTypeModule {}

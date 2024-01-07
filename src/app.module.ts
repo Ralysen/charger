@@ -26,8 +26,8 @@ dotenv.config();
       database: process.env.DB_NAME || 'postgres',
       synchronize: true,
       logging: false,
-      entities: [ChargingStation, ChargingStationType, Connector]
-    })
+      entities: [ChargingStation, ChargingStationType, Connector],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

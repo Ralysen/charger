@@ -1,4 +1,4 @@
 export class UpdateConnectorDTO {
-    name?: string
-    priority?: boolean
+  name?: string;
+  priority?: boolean;
 }

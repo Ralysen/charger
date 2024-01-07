@@ -9,7 +9,9 @@ describe('ChargingStationTypeService', () => {
       providers: [ChargingStationTypeService],
     }).compile();
 
-    service = module.get<ChargingStationTypeService>(ChargingStationTypeService);
+    service = module.get<ChargingStationTypeService>(
+      ChargingStationTypeService,
+    );
   });
 
   it('should be defined', () => {
