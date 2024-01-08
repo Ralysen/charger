@@ -14,19 +14,19 @@ describe('ConnectorService', () => {
     update: jest.fn(),
     delete: jest.fn(),
     merge: jest.fn(),
-  }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ConnectorService,
+      providers: [
+        ConnectorService,
         {
           provide: getRepositoryToken(Connector),
           useValue: mockConnectorRepo,
-        }
+        },
       ],
       controllers: [ConnectorController],
-    })
-    .compile();
+    }).compile();
 
     service = module.get<ConnectorService>(ConnectorService);
   });

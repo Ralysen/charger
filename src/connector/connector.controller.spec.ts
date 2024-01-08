@@ -4,16 +4,16 @@ import { ConnectorService } from './connector.service';
 
 describe('ConnectorController', () => {
   let controller: ConnectorController;
-  let serviceConnector = { findAll: () => ['test'] };
+  const serviceConnector = { findAll: () => ['test'] };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ConnectorController],
-      providers: [ConnectorService]
+      providers: [ConnectorService],
     })
-    .overrideProvider(ConnectorService)
-    .useValue(serviceConnector)
-    .compile();
+      .overrideProvider(ConnectorService)
+      .useValue(serviceConnector)
+      .compile();
 
     controller = module.get<ConnectorController>(ConnectorController);
   });

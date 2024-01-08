@@ -14,20 +14,19 @@ describe('ChargingStationTypeService', () => {
     update: jest.fn(),
     delete: jest.fn(),
     merge: jest.fn(),
-  }
-
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ChargingStationTypeService,
+      providers: [
+        ChargingStationTypeService,
         {
           provide: getRepositoryToken(ChargingStationType),
-          useValue: mockChargingStationTypeRepo
-        }
+          useValue: mockChargingStationTypeRepo,
+        },
       ],
-      controllers: [ChargingStationTypeController]
-    })
-    .compile();
+      controllers: [ChargingStationTypeController],
+    }).compile();
 
     service = module.get<ChargingStationTypeService>(
       ChargingStationTypeService,

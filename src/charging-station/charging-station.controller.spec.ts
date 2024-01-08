@@ -4,16 +4,16 @@ import { ChargingStationService } from './charging-station.service';
 
 describe('ChargingStationController', () => {
   let controller: ChargingStationController;
-  let serviceChargingStation = { findAll: () => ['test'] };
+  const serviceChargingStation = { findAll: () => ['test'] };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ChargingStationController],
-      providers: [ChargingStationService]
+      providers: [ChargingStationService],
     })
-    .overrideProvider(ChargingStationService)
-    .useValue(serviceChargingStation)
-    .compile();
+      .overrideProvider(ChargingStationService)
+      .useValue(serviceChargingStation)
+      .compile();
 
     controller = module.get<ChargingStationController>(
       ChargingStationController,
