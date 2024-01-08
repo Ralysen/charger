@@ -23,7 +23,7 @@ describe('ChargingStationTypeService', () => {
     plug_count: 5,
     efficiency: 12.12,
     current_type: 'AC',
-  }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -51,14 +51,16 @@ describe('ChargingStationTypeService', () => {
       //Arrange
       const stationTypes = [chargingStationType];
 
-      jest.spyOn(mockChargingStationTypeRepo, 'find').mockReturnValue(stationTypes);
+      jest
+        .spyOn(mockChargingStationTypeRepo, 'find')
+        .mockReturnValue(stationTypes);
 
       //Act
       const result = await service.findAll();
 
       //Assert
       expect(result).toEqual(stationTypes);
-    })
+    });
   });
 
   describe('Find station type by Id', () => {
@@ -66,16 +68,20 @@ describe('ChargingStationTypeService', () => {
       //Arrange
       const stationType = chargingStationType;
 
-      jest.spyOn(mockChargingStationTypeRepo, 'findOneBy').mockReturnValue(stationType);
+      jest
+        .spyOn(mockChargingStationTypeRepo, 'findOneBy')
+        .mockReturnValue(stationType);
 
       //Act
       const result = await service.findById(stationType.id);
 
       //Assert
       expect(result).toEqual(stationType);
-      expect(mockChargingStationTypeRepo.findOneBy).toHaveBeenCalledWith({ id: stationType.id })
-    })
-  })
+      expect(mockChargingStationTypeRepo.findOneBy).toHaveBeenCalledWith({
+        id: stationType.id,
+      });
+    });
+  });
 
   describe('Create station type', () => {
     it('Should create station type successfully', async () => {
@@ -86,17 +92,20 @@ describe('ChargingStationTypeService', () => {
         efficiency: 12.12,
       } as CreateChargingStationTypeDTO;
 
-      jest.spyOn(mockChargingStationTypeRepo, 'save').mockReturnValue(chargingStationType);
+      jest
+        .spyOn(mockChargingStationTypeRepo, 'save')
+        .mockReturnValue(chargingStationType);
 
       //Act
       const result = await service.create(createdChargingStationTypeDTO);
 
       //Assert
       expect(result).toEqual(chargingStationType);
-      expect(mockChargingStationTypeRepo.save).toHaveBeenCalledWith(createdChargingStationTypeDTO);
-
-    })
-  })
+      expect(mockChargingStationTypeRepo.save).toHaveBeenCalledWith(
+        createdChargingStationTypeDTO,
+      );
+    });
+  });
 
   describe('Update station type', () => {
     it('Should update station type successfully', async () => {
@@ -112,19 +121,31 @@ describe('ChargingStationTypeService', () => {
         plug_count: 5,
         efficiency: 12.12,
         current_type: 'AC',
-      }
+      };
 
-      jest.spyOn(mockChargingStationTypeRepo, 'findOneBy').mockReturnValue(chargingStationType);
-      jest.spyOn(mockChargingStationTypeRepo, 'merge').mockReturnValue(updatedChargingStationType);
+      jest
+        .spyOn(mockChargingStationTypeRepo, 'findOneBy')
+        .mockReturnValue(chargingStationType);
+      jest
+        .spyOn(mockChargingStationTypeRepo, 'merge')
+        .mockReturnValue(updatedChargingStationType);
 
       //Act
-      await service.update(chargingStationType.id, updateChargingStationTypeDTO);
+      await service.update(
+        chargingStationType.id,
+        updateChargingStationTypeDTO,
+      );
 
       //Assert
-      expect(mockChargingStationTypeRepo.findOneBy).toHaveBeenCalledWith({ id: chargingStationType.id });
-      expect(mockChargingStationTypeRepo.merge).toHaveBeenCalledWith(chargingStationType, updateChargingStationTypeDTO);
-    })
-  })
+      expect(mockChargingStationTypeRepo.findOneBy).toHaveBeenCalledWith({
+        id: chargingStationType.id,
+      });
+      expect(mockChargingStationTypeRepo.merge).toHaveBeenCalledWith(
+        chargingStationType,
+        updateChargingStationTypeDTO,
+      );
+    });
+  });
 
   describe('Delete station type', () => {
     it('Should delete station type successfully', async () => {
@@ -135,7 +156,9 @@ describe('ChargingStationTypeService', () => {
       service.remove(chargingStationType.id);
 
       //Assert
-      expect(mockChargingStationTypeRepo.delete).toHaveBeenCalledWith(chargingStationType.id);
-    })
-  })
+      expect(mockChargingStationTypeRepo.delete).toHaveBeenCalledWith(
+        chargingStationType.id,
+      );
+    });
+  });
 });

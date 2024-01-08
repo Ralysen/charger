@@ -20,7 +20,7 @@ describe('ConnectorService', () => {
   const connector = {
     id: '6db82ff1-2aea-4736-b3ae-89763a727939',
     name: 'test name',
-    priority: true
+    priority: true,
   } as Connector;
 
   beforeEach(async () => {
@@ -54,8 +54,8 @@ describe('ConnectorService', () => {
 
       //Assert
       expect(result).toEqual(connectors);
-    })
-  })
+    });
+  });
 
   describe('Find connector by Id', () => {
     it('Should return connector successfully', async () => {
@@ -67,16 +67,18 @@ describe('ConnectorService', () => {
 
       //Assert
       expect(result).toEqual(connector);
-      expect(mockConnectorRepo.findOneBy).toHaveBeenCalledWith({ id: connector.id });
-    })
-  })
+      expect(mockConnectorRepo.findOneBy).toHaveBeenCalledWith({
+        id: connector.id,
+      });
+    });
+  });
 
   describe('Create connector', () => {
     it('Should create connector successfully', async () => {
       //Arrange
       const createConnectorDTO = {
         name: 'test name',
-        priority: true
+        priority: true,
       } as CreateConnectorDTO;
 
       jest.spyOn(mockConnectorRepo, 'save').mockReturnValue(connector);
@@ -87,37 +89,38 @@ describe('ConnectorService', () => {
       //Assert
       expect(result).toEqual(connector);
       expect(mockConnectorRepo.save).toHaveBeenCalledWith(createConnectorDTO);
-    })
-  })
+    });
+  });
 
   describe('Update connector', () => {
     it('Should update connector successfully', async () => {
       //Arrange
       const updateConnectorDTO = {
-        name: "test name changed",
+        name: 'test name changed',
       } as UpdateConnectorDTO;
 
       const updatedConnector = {
         id: '6db82ff1-2aea-4736-b3ae-89763a727939',
         name: 'test name changed',
-        priority: true
-      }
+        priority: true,
+      };
 
-      jest
-        .spyOn(mockConnectorRepo, 'findOneBy')
-        .mockReturnValue(connector);
-      jest
-        .spyOn(mockConnectorRepo, 'merge')
-        .mockReturnValue(updatedConnector);
+      jest.spyOn(mockConnectorRepo, 'findOneBy').mockReturnValue(connector);
+      jest.spyOn(mockConnectorRepo, 'merge').mockReturnValue(updatedConnector);
 
       //Act
       await service.update(connector.id, updateConnectorDTO);
 
       //Assert
-      expect(mockConnectorRepo.findOneBy).toHaveBeenCalledWith({ id: connector.id });
-      expect(mockConnectorRepo.merge).toHaveBeenCalledWith(connector, updateConnectorDTO);
-    })
-  })
+      expect(mockConnectorRepo.findOneBy).toHaveBeenCalledWith({
+        id: connector.id,
+      });
+      expect(mockConnectorRepo.merge).toHaveBeenCalledWith(
+        connector,
+        updateConnectorDTO,
+      );
+    });
+  });
 
   describe('', () => {
     it('', async () => {
@@ -129,6 +132,6 @@ describe('ConnectorService', () => {
 
       //Assert
       expect(mockConnectorRepo.delete).toHaveBeenCalledWith(connector.id);
-    })
-  })
+    });
+  });
 });

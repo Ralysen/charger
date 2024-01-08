@@ -73,7 +73,9 @@ describe('ChargingStationService', () => {
 
       //Assert
       expect(result).toEqual(station);
-      expect(mockChargingStationRepo.findOneBy).toHaveBeenCalledWith({ id: chargingStation.id });
+      expect(mockChargingStationRepo.findOneBy).toHaveBeenCalledWith({
+        id: chargingStation.id,
+      });
     });
   });
 
@@ -96,7 +98,9 @@ describe('ChargingStationService', () => {
 
       //Assert
       expect(result).toEqual(chargingStation);
-      expect(mockChargingStationRepo.save).toHaveBeenCalledWith(createdChargingStationDTO);
+      expect(mockChargingStationRepo.save).toHaveBeenCalledWith(
+        createdChargingStationDTO,
+      );
     });
   });
 
@@ -126,7 +130,9 @@ describe('ChargingStationService', () => {
       await service.update(chargingStation.id, updateChargingStationDTO);
 
       //Assert
-      expect(mockChargingStationRepo.findOneBy).toHaveBeenCalledWith({ id: chargingStation.id });
+      expect(mockChargingStationRepo.findOneBy).toHaveBeenCalledWith({
+        id: chargingStation.id,
+      });
       expect(mockChargingStationRepo.merge).toHaveBeenCalledWith(
         chargingStation,
         updateChargingStationDTO,
@@ -143,7 +149,9 @@ describe('ChargingStationService', () => {
       service.remove(chargingStation.id);
 
       //Assert
-      expect(mockChargingStationRepo.delete).toHaveBeenCalledWith(chargingStation.id);
+      expect(mockChargingStationRepo.delete).toHaveBeenCalledWith(
+        chargingStation.id,
+      );
     });
   });
 });
