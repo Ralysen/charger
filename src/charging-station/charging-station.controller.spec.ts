@@ -14,29 +14,28 @@ describe('ChargingStationController', () => {
     ip_address: '123.456.78.90',
     firmware_version: '1.0',
   } as ChargingStation;
-  
+
   const mockChargingStationService = {
     findAll: jest.fn().mockResolvedValue([mockChargingStation]),
     findById: jest.fn().mockResolvedValue(mockChargingStation),
     create: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
-  }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ChargingStationController],
-      providers: [ChargingStationService, 
+      providers: [
+        ChargingStationService,
         {
           provide: ChargingStationService,
           useValue: mockChargingStationService,
-        }
+        },
       ],
     }).compile();
 
-    service = module.get<ChargingStationService>(
-      ChargingStationService,
-    );
+    service = module.get<ChargingStationService>(ChargingStationService);
     controller = module.get<ChargingStationController>(
       ChargingStationController,
     );
@@ -54,8 +53,8 @@ describe('ChargingStationController', () => {
       //Assert
       expect(result).toEqual([mockChargingStation]);
       expect(service.findAll).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 
   describe('Get charging station by Id (findById', () => {
     it('Should get charging station by Id successfully', async () => {
@@ -65,15 +64,17 @@ describe('ChargingStationController', () => {
       //Assert
       expect(result).toEqual(mockChargingStation);
       expect(service.findById).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 
   describe('Create new charging station (create)', () => {
     it('Should create charging station successfully', async () => {
       //Arrange
       const newChargingStation = mockChargingStation;
 
-      mockChargingStationService.create = jest.fn().mockResolvedValueOnce(mockChargingStation);
+      mockChargingStationService.create = jest
+        .fn()
+        .mockResolvedValueOnce(mockChargingStation);
 
       //Act
       const result = await controller.create(newChargingStation);
@@ -81,25 +82,33 @@ describe('ChargingStationController', () => {
       //Assert
       expect(result).toEqual(newChargingStation);
       expect(service.findById).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 
   describe('Update charging station (update)', () => {
     it('Should update charging station successfully', async () => {
       //Arrange
-      const updatedChargingStation = {...mockChargingStation, name: 'changed test name'};
-      const changeChargingStation = { name: 'changed test name'};
-      
-      mockChargingStationService.update = jest.fn().mockResolvedValueOnce(updatedChargingStation);
+      const updatedChargingStation = {
+        ...mockChargingStation,
+        name: 'changed test name',
+      };
+      const changeChargingStation = { name: 'changed test name' };
+
+      mockChargingStationService.update = jest
+        .fn()
+        .mockResolvedValueOnce(updatedChargingStation);
 
       //Act
-      const result = await controller.update(mockChargingStation.id, changeChargingStation);
+      const result = await controller.update(
+        mockChargingStation.id,
+        changeChargingStation,
+      );
 
       //Assert
       expect(result).toEqual(updatedChargingStation);
-      expect(service.update).toHaveBeenCalled()
-    })
-  })
+      expect(service.update).toHaveBeenCalled();
+    });
+  });
 
   describe('Delete charging station (delete0', () => {
     it('Should delete charging station successfully', async () => {
@@ -108,6 +117,6 @@ describe('ChargingStationController', () => {
 
       //Assert
       expect(service.remove).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 });

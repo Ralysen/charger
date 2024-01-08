@@ -10,7 +10,7 @@ describe('ConnectorController', () => {
   const mockConnector = {
     id: '6db82ff1-2aea-4736-b3ae-89763a727939',
     name: 'test name',
-    priority: true
+    priority: true,
   } as Connector;
 
   const mockConnectorService = {
@@ -19,16 +19,17 @@ describe('ConnectorController', () => {
     create: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
-  }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ConnectorController],
-      providers: [ConnectorService, 
+      providers: [
+        ConnectorService,
         {
           provide: ConnectorService,
           useValue: mockConnectorService,
-        }
+        },
       ],
     }).compile();
 
@@ -48,8 +49,8 @@ describe('ConnectorController', () => {
       //Assert
       expect(result).toEqual([mockConnector]);
       expect(service.findAll).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 
   describe('Get charging station by Id (findById', () => {
     it('Should get charging station by Id successfully', async () => {
@@ -59,15 +60,17 @@ describe('ConnectorController', () => {
       //Assert
       expect(result).toEqual(mockConnector);
       expect(service.findById).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 
   describe('Create new charging station (create)', () => {
     it('Should create charging station successfully', async () => {
       //Arrange
       const newConnector = mockConnector;
 
-      mockConnectorService.create = jest.fn().mockResolvedValueOnce(mockConnector);
+      mockConnectorService.create = jest
+        .fn()
+        .mockResolvedValueOnce(mockConnector);
 
       //Act
       const result = await controller.create(newConnector);
@@ -75,25 +78,27 @@ describe('ConnectorController', () => {
       //Assert
       expect(result).toEqual(newConnector);
       expect(service.findById).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 
   describe('Update charging station (update)', () => {
     it('Should update charging station successfully', async () => {
       //Arrange
-      const updatedConnector = {...mockConnector, name: 'changed test name'};
-      const changeConnector = { name: 'changed test name'};
-      
-      mockConnectorService.update = jest.fn().mockResolvedValueOnce(updatedConnector);
+      const updatedConnector = { ...mockConnector, name: 'changed test name' };
+      const changeConnector = { name: 'changed test name' };
+
+      mockConnectorService.update = jest
+        .fn()
+        .mockResolvedValueOnce(updatedConnector);
 
       //Act
       const result = await controller.update(mockConnector.id, changeConnector);
 
       //Assert
       expect(result).toEqual(updatedConnector);
-      expect(service.update).toHaveBeenCalled()
-    })
-  })
+      expect(service.update).toHaveBeenCalled();
+    });
+  });
 
   describe('Delete charging station (delete0', () => {
     it('Should delete charging station successfully', async () => {
@@ -102,6 +107,6 @@ describe('ConnectorController', () => {
 
       //Assert
       expect(service.remove).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 });

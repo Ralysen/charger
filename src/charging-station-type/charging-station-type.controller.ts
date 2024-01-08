@@ -43,6 +43,9 @@ export class ChargingStationTypeController {
     @Param('id') id: string,
     @Body() updateChargingStationType: UpdateChargingStationTypeDTO,
   ) {
-    return await this.chargingStationTypeService.update(id, updateChargingStationType);
+    return await this.chargingStationTypeService.update(
+      id,
+      updateChargingStationType,
+    );
   }
 }

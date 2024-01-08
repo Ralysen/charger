@@ -12,30 +12,31 @@ describe('ChargingStationTypeController', () => {
     name: 'test name',
     plug_count: 5,
     efficiency: 12.12,
-    current_type: {AC:'AC'},
+    current_type: { AC: 'AC' },
   } as ChargingStationType;
-  
+
   const mockChargingStationTypeService = {
     findAll: jest.fn().mockResolvedValue([mockChargingStationType]),
     findById: jest.fn().mockResolvedValue(mockChargingStationType),
     create: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
-  }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ChargingStationTypeController],
-      providers: [ChargingStationTypeService, 
-      {
-        provide: ChargingStationTypeService,
-        useValue: mockChargingStationTypeService,
-      }
-    ],
+      providers: [
+        ChargingStationTypeService,
+        {
+          provide: ChargingStationTypeService,
+          useValue: mockChargingStationTypeService,
+        },
+      ],
     }).compile();
 
     service = module.get<ChargingStationTypeService>(
-      ChargingStationTypeService
+      ChargingStationTypeService,
     );
     controller = module.get<ChargingStationTypeController>(
       ChargingStationTypeController,
@@ -46,7 +47,6 @@ describe('ChargingStationTypeController', () => {
     expect(controller).toBeDefined();
   });
 
-
   describe('Get all charging station types (findAll)', () => {
     it('Should get all charging station types successfully', async () => {
       //Act
@@ -55,8 +55,8 @@ describe('ChargingStationTypeController', () => {
       //Assert
       expect(result).toEqual([mockChargingStationType]);
       expect(service.findAll).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 
   describe('Get charging station by Id (findById', () => {
     it('Should get charging station by Id successfully', async () => {
@@ -66,15 +66,17 @@ describe('ChargingStationTypeController', () => {
       //Assert
       expect(result).toEqual(mockChargingStationType);
       expect(service.findById).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 
   describe('Create new charging station (create)', () => {
     it('Should create charging station successfully', async () => {
       //Arrange
       const newChargingStation = mockChargingStationType;
 
-      mockChargingStationTypeService.create = jest.fn().mockResolvedValueOnce(mockChargingStationType);
+      mockChargingStationTypeService.create = jest
+        .fn()
+        .mockResolvedValueOnce(mockChargingStationType);
 
       //Act
       const result = await controller.create(newChargingStation);
@@ -82,25 +84,33 @@ describe('ChargingStationTypeController', () => {
       //Assert
       expect(result).toEqual(newChargingStation);
       expect(service.findById).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 
   describe('Update charging station (update)', () => {
     it('Should update charging station successfully', async () => {
       //Arrange
-      const updatedChargingStation = {...mockChargingStationType, name: 'changed test name'};
-      const changeChargingStation = { name: 'changed test name'};
-      
-      mockChargingStationTypeService.update = jest.fn().mockResolvedValueOnce(updatedChargingStation);
+      const updatedChargingStation = {
+        ...mockChargingStationType,
+        name: 'changed test name',
+      };
+      const changeChargingStation = { name: 'changed test name' };
+
+      mockChargingStationTypeService.update = jest
+        .fn()
+        .mockResolvedValueOnce(updatedChargingStation);
 
       //Act
-      const result = await controller.update(mockChargingStationType.id, changeChargingStation);
+      const result = await controller.update(
+        mockChargingStationType.id,
+        changeChargingStation,
+      );
 
       //Assert
       expect(result).toEqual(updatedChargingStation);
-      expect(service.update).toHaveBeenCalled()
-    })
-  })
+      expect(service.update).toHaveBeenCalled();
+    });
+  });
 
   describe('Delete charging station (delete0', () => {
     it('Should delete charging station successfully', async () => {
@@ -109,6 +119,6 @@ describe('ChargingStationTypeController', () => {
 
       //Assert
       expect(service.remove).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 });
