@@ -112,7 +112,7 @@ describe('ChargingStationService', () => {
       const result = await service.create(chargingStationDTO);
 
       //Assert
-      expect(result).toBe(chargingStation);
+      expect(result).toEqual(chargingStation);
       expect(mockChargingStationRepo.save).toBeCalledWith(chargingStationDTO);
     });
   });
