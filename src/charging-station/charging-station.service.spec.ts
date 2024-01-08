@@ -17,6 +17,14 @@ describe('ChargingStationService', () => {
     merge: jest.fn(),
   };
 
+  const chargingStation = {
+    id: '6db82ff1-2aea-4736-b3ae-89763a727939',
+    name: 'test name',
+    device_id: 'e017aed3-a579-4002-a873-d9c6e20cc631',
+    ip_address: '123.456.78.90',
+    firmware_version: '1.0',
+  } as ChargingStation;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ChargingStationController],
@@ -39,14 +47,6 @@ describe('ChargingStationService', () => {
   describe('Find all stations (findAll)', () => {
     it('Should return all charging stations correctly', async () => {
       //Arrange
-      const chargingStation = {
-        id: '6db82ff1-2aea-4736-b3ae-89763a727939',
-        name: 'test name',
-        device_id: 'e017aed3-a579-4002-a873-d9c6e20cc631',
-        ip_address: '123.456.78.90',
-        firmware_version: '1.0',
-      };
-
       const stations = [chargingStation];
 
       jest.spyOn(mockChargingStationRepo, 'find').mockReturnValue(stations);
@@ -64,75 +64,48 @@ describe('ChargingStationService', () => {
   describe('Find station by Id (find)', () => {
     it('Should return station correctly', async () => {
       //Arrange
-      const id = '6db82ff1-2aea-4736-b3ae-89763a727939';
-      const chargingStation = {
-        id: '6db82ff1-2aea-4736-b3ae-89763a727939',
-        name: 'test name',
-        device_id: 'e017aed3-a579-4002-a873-d9c6e20cc631',
-        ip_address: '123.456.78.90',
-        firmware_version: '1.0',
-      };
-
-      const station = [chargingStation];
+      const station = chargingStation;
 
       jest.spyOn(mockChargingStationRepo, 'findOneBy').mockReturnValue(station);
 
       //Act
-      const result = await service.findById(id);
+      const result = await service.findById(chargingStation.id);
 
       //Assert
       expect(result).toEqual(station);
-      expect(mockChargingStationRepo.findOneBy).toHaveBeenCalledWith({ id });
+      expect(mockChargingStationRepo.findOneBy).toHaveBeenCalledWith({ id: chargingStation.id });
     });
   });
 
   describe('Create new station (create)', () => {
     it('Should create station correctly', async () => {
       //Arrange
-      const chargingStationDTO = {
+      const createdChargingStationDTO = {
         name: 'test name',
         device_id: 'e017aed3-a579-4002-a873-d9c6e20cc631',
         ip_address: '123.456.78.90',
         firmware_version: '1.0',
       } as CreateChargingStationDTO;
 
-      const chargingStation = {
-        id: '6db82ff1-2aea-4736-b3ae-89763a727939',
-        name: 'test name',
-        device_id: 'e017aed3-a579-4002-a873-d9c6e20cc631',
-        ip_address: '123.456.78.90',
-        firmware_version: '1.0',
-      } as ChargingStation;
-
       jest
         .spyOn(mockChargingStationRepo, 'save')
         .mockReturnValue(chargingStation);
 
       //Act
-      const result = await service.create(chargingStationDTO);
+      const result = await service.create(createdChargingStationDTO);
 
       //Assert
       expect(result).toEqual(chargingStation);
-      expect(mockChargingStationRepo.save).toBeCalledWith(chargingStationDTO);
+      expect(mockChargingStationRepo.save).toHaveBeenCalledWith(createdChargingStationDTO);
     });
   });
 
   describe('Update station by Id', () => {
     it('Should update station correctly', async () => {
       //Arrange
-      const id = '6db82ff1-2aea-4736-b3ae-89763a727939';
-
       const updateChargingStationDTO = {
         name: 'test name changed',
       } as UpdateChargingStationDTO;
-
-      const chargingStation = {
-        id: '6db82ff1-2aea-4736-b3ae-89763a727939',
-        name: 'test name',
-        device_id: 'e017aed3-a579-4002-a873-d9c6e20cc631',
-        ip_address: '123.456.78.90',
-        firmware_version: '1.0',
-      } as ChargingStation;
 
       const updatedChargingStation = {
         id: '6db82ff1-2aea-4736-b3ae-89763a727939',
@@ -150,10 +123,10 @@ describe('ChargingStationService', () => {
         .mockReturnValue(updatedChargingStation);
 
       //Act
-      await service.update(id, updateChargingStationDTO);
+      await service.update(chargingStation.id, updateChargingStationDTO);
 
       //Assert
-      expect(mockChargingStationRepo.findOneBy).toHaveBeenCalledWith({ id });
+      expect(mockChargingStationRepo.findOneBy).toHaveBeenCalledWith({ id: chargingStation.id });
       expect(mockChargingStationRepo.merge).toHaveBeenCalledWith(
         chargingStation,
         updateChargingStationDTO,
@@ -164,15 +137,13 @@ describe('ChargingStationService', () => {
   describe('Delete station by Id', () => {
     it('Should delete station correctly', () => {
       //Arrange
-      const id = '6db82ff1-2aea-4736-b3ae-89763a727939';
-
       jest.spyOn(mockChargingStationRepo, 'delete').mockReturnValue(null);
 
       //Act
-      service.remove(id);
+      service.remove(chargingStation.id);
 
       //Assert
-      expect(mockChargingStationRepo.delete).toHaveBeenCalledWith(id);
+      expect(mockChargingStationRepo.delete).toHaveBeenCalledWith(chargingStation.id);
     });
   });
 });
