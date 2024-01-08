@@ -28,7 +28,7 @@ export class ConnectorController {
 
   @Post()
   async create(@Body() connectorDTO: CreateConnectorDTO) {
-    await this.connectorService.create(connectorDTO);
+    return await this.connectorService.create(connectorDTO);
   }
 
   @Delete(':id')
@@ -41,6 +41,6 @@ export class ConnectorController {
     @Param('id') id: string,
     @Body() updateConnectorDTO: UpdateConnectorDTO,
   ) {
-    this.connectorService.update(id, updateConnectorDTO);
+    return this.connectorService.update(id, updateConnectorDTO);
   }
 }

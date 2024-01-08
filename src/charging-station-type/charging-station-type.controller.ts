@@ -30,7 +30,7 @@ export class ChargingStationTypeController {
 
   @Post()
   async create(@Body() chargingStationTypeDTO: CreateChargingStationTypeDTO) {
-    await this.chargingStationTypeService.create(chargingStationTypeDTO);
+    return await this.chargingStationTypeService.create(chargingStationTypeDTO);
   }
 
   @Delete(':id')
@@ -43,6 +43,6 @@ export class ChargingStationTypeController {
     @Param('id') id: string,
     @Body() updateChargingStationType: UpdateChargingStationTypeDTO,
   ) {
-    this.chargingStationTypeService.update(id, updateChargingStationType);
+    return await this.chargingStationTypeService.update(id, updateChargingStationType);
   }
 }
