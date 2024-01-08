@@ -1,13 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChargingStationTypeController } from './charging-station-type.controller';
+import { ChargingStationTypeService } from './charging-station-type.service';
 
 describe('ChargingStationTypeController', () => {
   let controller: ChargingStationTypeController;
+  let serviceChargingStationType = { findAll: () => ['test'] };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ChargingStationTypeController],
-    }).compile();
+      providers: [ChargingStationTypeService]
+    })
+    .overrideProvider(ChargingStationTypeService)
+    .useValue(serviceChargingStationType)
+    .compile();
 
     controller = module.get<ChargingStationTypeController>(
       ChargingStationTypeController,

@@ -1,13 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConnectorController } from './connector.controller';
+import { ConnectorService } from './connector.service';
 
 describe('ConnectorController', () => {
   let controller: ConnectorController;
+  let serviceConnector = { findAll: () => ['test'] };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ConnectorController],
-    }).compile();
+      providers: [ConnectorService]
+    })
+    .overrideProvider(ConnectorService)
+    .useValue(serviceConnector)
+    .compile();
 
     controller = module.get<ConnectorController>(ConnectorController);
   });

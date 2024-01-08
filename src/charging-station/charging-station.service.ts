@@ -31,6 +31,6 @@ export class ChargingStationService {
   async update(id: string, body: UpdateChargingStationDTO) {
     const station = await this.chargingStationRepo.findOneBy({ id });
     this.chargingStationRepo.merge(station, body);
-    return await this.chargingStationRepo.save(station);
+    return this.chargingStationRepo.save(station);
   }
 }
