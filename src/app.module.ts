@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ChargingStationModule } from './charging_station/charging_station.module';
+import { ChargingStationModule } from './charging-station/charging-station.module';
 import * as dotenv from 'dotenv';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ChargingStation } from './charging_station/charging_station.entity';
-import { ChargingStationTypeModule } from './charging_station_type/charging_station_type.module';
-import { ChargingStationType } from './charging_station_type/charging_station.entity';
+import { ChargingStation } from './charging-station/charging-station.entity';
+import { ChargingStationTypeModule } from './charging-station-type/charging-station-type.module';
+import { ChargingStationType } from './charging-station-type/charging-station-type.entity';
 import { ConnectorModule } from './connector/connector.module';
 import { Connector } from './connector/connector.entity';
 
@@ -26,8 +26,8 @@ dotenv.config();
       database: process.env.DB_NAME || 'postgres',
       synchronize: true,
       logging: false,
-      entities: [ChargingStation, ChargingStationType, Connector]
-    })
+      entities: [ChargingStation, ChargingStationType, Connector],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
