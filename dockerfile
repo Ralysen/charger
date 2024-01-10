@@ -29,4 +29,4 @@ EXPOSE 3000
 
 COPY --from=build /usr/src/app/dist ./dist
 
-CMD ["dumb-init", "npm", "run", "start:prod"]
+CMD ["dumb-init", "node", "dist/main"]
