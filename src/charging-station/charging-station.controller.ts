@@ -20,12 +20,12 @@ export class ChargingStationController {
 
   @Get()
   async findAll(): Promise<ChargingStation[]> {
-    return this.chargingStationService.findAll();
+    return await this.chargingStationService.findAll();
   }
 
   @Get(':id')
   async findById(@Param('id') id: string): Promise<ChargingStation> {
-    return this.chargingStationService.findById(id);
+    return await this.chargingStationService.findById(id);
   }
 
   @Post()
@@ -43,6 +43,6 @@ export class ChargingStationController {
     @Param('id') id: string,
     @Body() updateChargingStation: UpdateChargingStationDTO,
   ) {
-    return this.chargingStationService.update(id, updateChargingStation);
+    return await this.chargingStationService.update(id, updateChargingStation);
   }
 }

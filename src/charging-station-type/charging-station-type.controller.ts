@@ -20,12 +20,12 @@ export class ChargingStationTypeController {
 
   @Get()
   async findAll(): Promise<ChargingStationType[]> {
-    return this.chargingStationTypeService.findAll();
+    return await this.chargingStationTypeService.findAll();
   }
 
   @Get(':id')
   async findById(@Param('id') id: string): Promise<ChargingStationType> {
-    return this.chargingStationTypeService.findById(id);
+    return await this.chargingStationTypeService.findById(id);
   }
 
   @Post()

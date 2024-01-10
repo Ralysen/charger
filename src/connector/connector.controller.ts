@@ -18,12 +18,12 @@ export class ConnectorController {
 
   @Get()
   async findAll(): Promise<Connector[]> {
-    return this.connectorService.findAll();
+    return await this.connectorService.findAll();
   }
 
   @Get(':id')
   async findById(@Param('id') id: string): Promise<Connector> {
-    return this.connectorService.findById(id);
+    return await this.connectorService.findById(id);
   }
 
   @Post()
@@ -41,6 +41,6 @@ export class ConnectorController {
     @Param('id') id: string,
     @Body() updateConnectorDTO: UpdateConnectorDTO,
   ) {
-    return this.connectorService.update(id, updateConnectorDTO);
+    return await this.connectorService.update(id, updateConnectorDTO);
   }
 }
