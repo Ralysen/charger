@@ -1,5 +1,13 @@
-import { IsIP, IsObject, IsOptional, IsString, IsUUID } from 'class-validator';
-import { ChargingStationType } from 'src/charging-station-type/charging-station-type.entity';
+import { Expose, Type } from 'class-transformer';
+import {
+  IsIP,
+  IsObject,
+  IsOptional,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
+import { ConnectChargingStationTypeDTO } from 'src/charging-station-type/dto/connect-charging-station-type.dto';
 
 export class UpdateChargingStationDTO {
   @IsOptional()
@@ -18,7 +26,10 @@ export class UpdateChargingStationDTO {
   @IsString()
   firmware_version?: string;
 
-  @IsOptional()
+  @ValidateNested()
+  @Type(() => ConnectChargingStationTypeDTO)
+  @Expose()
   @IsObject()
-  station_type?: ChargingStationType;
+  @IsOptional()
+  station_type?: ConnectChargingStationTypeDTO;
 }

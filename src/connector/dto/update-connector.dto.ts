@@ -1,4 +1,12 @@
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { Expose, Type } from 'class-transformer';
+import {
+  IsBoolean,
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { ConnectChargingStationDTO } from 'src/charging-station/dto/connect-charging-station.dto';
 
 export class UpdateConnectorDTO {
   @IsOptional()
@@ -8,4 +16,11 @@ export class UpdateConnectorDTO {
   @IsOptional()
   @IsBoolean()
   priority?: boolean;
+
+  @ValidateNested()
+  @Type(() => ConnectChargingStationDTO)
+  @Expose()
+  @IsObject()
+  @IsOptional()
+  charging_station?: ConnectChargingStationDTO;
 }
