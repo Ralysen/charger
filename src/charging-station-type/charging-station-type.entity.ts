@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ChargingStationTypeCurrentType } from './enums/charging-station-type.current-type';
+import { CurrentType } from './enums/charging-station-type.current-type';
 import { ChargingStation } from 'src/charging-station/charging-station.entity';
 
 @Entity()
@@ -16,12 +16,8 @@ export class ChargingStationType {
   @Column('float')
   efficiency: number;
 
-  @Column({
-    type: 'enum',
-    enum: ChargingStationTypeCurrentType,
-    default: ChargingStationTypeCurrentType.AC,
-  })
-  current_type: typeof ChargingStationTypeCurrentType;
+  @Column()
+  current_type: CurrentType;
 
   @OneToMany(
     () => ChargingStation,

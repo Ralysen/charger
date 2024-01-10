@@ -12,6 +12,7 @@ describe('ChargingStationTypeController', () => {
     name: 'test name',
     plug_count: 5,
     efficiency: 12.12,
+    current_type: 'AC',
   } as ChargingStationType;
 
   const mockChargingStationTypeService = {
