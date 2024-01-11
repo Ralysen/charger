@@ -24,7 +24,7 @@ export class ChargingStationController {
   async findAll(): Promise<ChargingStation[]> {
     const stations = await this.chargingStationService.findAll();
 
-    if(!stations) {
+    if (!stations) {
       throw new NotFoundException('Stations not found');
     }
 
@@ -35,7 +35,7 @@ export class ChargingStationController {
   async findById(@Param() params: IdValidationDTO): Promise<ChargingStation> {
     const station = await this.chargingStationService.findById(params.id);
 
-    if(!station) {
+    if (!station) {
       throw new NotFoundException('Station not found');
     }
 
@@ -51,7 +51,7 @@ export class ChargingStationController {
   async remove(@Param() params: IdValidationDTO) {
     const station = await this.chargingStationService.findById(params.id);
 
-    if(!station) {
+    if (!station) {
       throw new NotFoundException('Station not found');
     }
 
@@ -65,10 +65,13 @@ export class ChargingStationController {
   ) {
     const station = await this.chargingStationService.findById(params.id);
 
-    if(!station) {
+    if (!station) {
       throw new NotFoundException('Station not found');
     }
 
-    return await this.chargingStationService.update(params.id, updateChargingStation);
+    return await this.chargingStationService.update(
+      params.id,
+      updateChargingStation,
+    );
   }
 }

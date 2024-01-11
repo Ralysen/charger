@@ -22,7 +22,7 @@ export class ConnectorController {
   async findAll(): Promise<Connector[]> {
     const connectors = await this.connectorService.findAll();
 
-    if(!connectors) {
+    if (!connectors) {
       throw new NotFoundException('Connectors not found');
     }
 
@@ -33,7 +33,7 @@ export class ConnectorController {
   async findById(@Param() params: IdValidationDTO): Promise<Connector> {
     const connector = await this.connectorService.findById(params.id);
 
-    if(!connector) {
+    if (!connector) {
       throw new NotFoundException('Connector not found');
     }
 

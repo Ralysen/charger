@@ -55,7 +55,7 @@ describe('ConnectorController', () => {
   describe('Get charging station by Id (findById', () => {
     it('Should get charging station by Id successfully', async () => {
       //Act
-      const result = await controller.findById(mockConnector.id);
+      const result = await controller.findById(mockConnector.id as any);
 
       //Assert
       expect(result).toEqual(mockConnector);
@@ -92,7 +92,10 @@ describe('ConnectorController', () => {
         .mockResolvedValueOnce(updatedConnector);
 
       //Act
-      const result = await controller.update(mockConnector.id, changeConnector);
+      const result = await controller.update(
+        mockConnector.id as any,
+        changeConnector,
+      );
 
       //Assert
       expect(result).toEqual(updatedConnector);
@@ -103,7 +106,7 @@ describe('ConnectorController', () => {
   describe('Delete charging station (delete0', () => {
     it('Should delete charging station successfully', async () => {
       //Act
-      await controller.remove(mockConnector.id);
+      await controller.remove(mockConnector.id as any);
 
       //Assert
       expect(service.remove).toHaveBeenCalled();

@@ -24,18 +24,22 @@ export class ChargingStationTypeController {
   async findAll(): Promise<ChargingStationType[]> {
     const stationTypes = await this.chargingStationTypeService.findAll();
 
-    if(!stationTypes) {
-        throw new NotFoundException('Station types not found');
+    if (!stationTypes) {
+      throw new NotFoundException('Station types not found');
     }
 
     return stationTypes;
   }
 
   @Get(':id')
-  async findById(@Param() params: IdValidationDTO): Promise<ChargingStationType> {
-    const stationType = await this.chargingStationTypeService.findById(params.id);
+  async findById(
+    @Param() params: IdValidationDTO,
+  ): Promise<ChargingStationType> {
+    const stationType = await this.chargingStationTypeService.findById(
+      params.id,
+    );
 
-    if(!stationType) {
+    if (!stationType) {
       throw new NotFoundException('Station type not found');
     }
 

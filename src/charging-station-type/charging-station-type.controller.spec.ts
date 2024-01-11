@@ -61,7 +61,9 @@ describe('ChargingStationTypeController', () => {
   describe('Get charging station by Id (findById', () => {
     it('Should get charging station by Id successfully', async () => {
       //Act
-      const result = await controller.findById(mockChargingStationType.id);
+      const result = await controller.findById(
+        mockChargingStationType.id as any,
+      );
 
       //Assert
       expect(result).toEqual(mockChargingStationType);
@@ -102,7 +104,7 @@ describe('ChargingStationTypeController', () => {
 
       //Act
       const result = await controller.update(
-        mockChargingStationType.id,
+        mockChargingStationType.id as any,
         changeChargingStation,
       );
 
@@ -115,7 +117,7 @@ describe('ChargingStationTypeController', () => {
   describe('Delete charging station (delete0', () => {
     it('Should delete charging station successfully', async () => {
       //Act
-      await controller.remove(mockChargingStationType.id);
+      await controller.remove(mockChargingStationType.id as any);
 
       //Assert
       expect(service.remove).toHaveBeenCalled();
