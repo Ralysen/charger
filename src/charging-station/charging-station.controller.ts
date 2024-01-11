@@ -28,7 +28,6 @@ export class ChargingStationController {
     if (!stations) {
       throw new NotFoundException('Stations not found');
     }
-
     return stations;
   }
 
