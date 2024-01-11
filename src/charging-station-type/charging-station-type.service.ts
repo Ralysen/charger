@@ -13,15 +13,15 @@ export class ChargingStationTypeService {
   ) {}
 
   async findAll(): Promise<ChargingStationType[]> {
-    return this.chargingStationTypeRepo.find();
+    return await this.chargingStationTypeRepo.find();
   }
 
   async findById(id: string): Promise<ChargingStationType> {
-    return this.chargingStationTypeRepo.findOneBy({ id });
+    return await this.chargingStationTypeRepo.findOneBy({ id });
   }
 
   async create(dto: CreateChargingStationTypeDTO) {
-    return this.chargingStationTypeRepo.save(dto);
+    return await this.chargingStationTypeRepo.save(dto);
   }
 
   async remove(id: string) {

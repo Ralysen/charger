@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -11,6 +12,8 @@ import { ChargingStationTypeService } from './charging-station-type.service';
 import { ChargingStationType } from './charging-station-type.entity';
 import { CreateChargingStationTypeDTO } from './dto/create-charging-station-type.dto';
 import { UpdateChargingStationTypeDTO } from './dto/update-charging-station-type.dto';
+import { IdValidationDTO } from './validation/charging-station-type.param.validation';
+import { ResponseUtils } from 'src/response-handling/response-utils';
 
 @Controller('station_type')
 export class ChargingStationTypeController {
@@ -20,32 +23,78 @@ export class ChargingStationTypeController {
 
   @Get()
   async findAll(): Promise<ChargingStationType[]> {
-    return this.chargingStationTypeService.findAll();
+    const stationTypes = await this.chargingStationTypeService.findAll();
+
+    if (!stationTypes) {
+      throw new NotFoundException('Station types not found');
+    }
+
+    return stationTypes;
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string): Promise<ChargingStationType> {
-    return this.chargingStationTypeService.findById(id);
+  async findById(
+    @Param() params: IdValidationDTO,
+  ): Promise<ChargingStationType> {
+    const stationType = await this.chargingStationTypeService.findById(
+      params.id,
+    );
+
+    if (!stationType) {
+      throw new NotFoundException('Station type not found');
+    }
+
+    return stationType;
   }
 
   @Post()
   async create(@Body() chargingStationTypeDTO: CreateChargingStationTypeDTO) {
-    return await this.chargingStationTypeService.create(chargingStationTypeDTO);
+    const stationType = await this.chargingStationTypeService.create(
+      chargingStationTypeDTO,
+    );
+    return ResponseUtils.sendResponse(
+      201,
+      `Station type ${stationType.id} created successfully!`,
+      stationType,
+    );
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    await this.chargingStationTypeService.remove(id);
+  async remove(@Param() params: IdValidationDTO) {
+    const station = await this.chargingStationTypeService.findById(params.id);
+
+    if (!station) {
+      throw new NotFoundException('Station type not found');
+    }
+    try {
+      await this.chargingStationTypeService.remove(params.id);
+      return ResponseUtils.sendResponse(
+        200,
+        `Station type ${params.id} removed successfully!`,
+      );
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param() params: IdValidationDTO,
     @Body() updateChargingStationType: UpdateChargingStationTypeDTO,
   ) {
-    return await this.chargingStationTypeService.update(
-      id,
+    const stationType = await this.chargingStationTypeService.update(
+      params.id,
       updateChargingStationType,
+    );
+
+    if (!stationType) {
+      throw new NotFoundException('Station type not found');
+    }
+
+    return ResponseUtils.sendResponse(
+      200,
+      `Station type ${stationType.id} updated successfully!`,
+      stationType,
     );
   }
 }

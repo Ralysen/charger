@@ -13,15 +13,15 @@ export class ChargingStationService {
   ) {}
 
   async findAll(): Promise<ChargingStation[]> {
-    return this.chargingStationRepo.find();
+    return await this.chargingStationRepo.find();
   }
 
   async findById(id: string): Promise<ChargingStation> {
-    return this.chargingStationRepo.findOneBy({ id });
+    return await this.chargingStationRepo.findOneBy({ id });
   }
 
   async create(dto: CreateChargingStationDTO) {
-    return this.chargingStationRepo.save(dto);
+    return await this.chargingStationRepo.save(dto);
   }
 
   async remove(id: string) {
@@ -31,6 +31,6 @@ export class ChargingStationService {
   async update(id: string, body: UpdateChargingStationDTO) {
     const station = await this.chargingStationRepo.findOneBy({ id });
     this.chargingStationRepo.merge(station, body);
-    return this.chargingStationRepo.save(station);
+    return await this.chargingStationRepo.save(station);
   }
 }

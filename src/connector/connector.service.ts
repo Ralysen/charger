@@ -13,15 +13,15 @@ export class ConnectorService {
   ) {}
 
   async findAll(): Promise<Connector[]> {
-    return this.connectorRepo.find();
+    return await this.connectorRepo.find();
   }
 
   async findById(id: string): Promise<Connector> {
-    return this.connectorRepo.findOneBy({ id });
+    return await this.connectorRepo.findOneBy({ id });
   }
 
   async create(body: CreateConnectorDTO) {
-    return this.connectorRepo.save(body);
+    return await this.connectorRepo.save(body);
   }
 
   async remove(id: string) {

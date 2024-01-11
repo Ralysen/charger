@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -11,6 +12,8 @@ import { ChargingStationService } from './charging-station.service';
 import { ChargingStation } from './charging-station.entity';
 import { CreateChargingStationDTO } from './dto/create-charging-station.dto';
 import { UpdateChargingStationDTO } from './dto/update-charging-station.dto';
+import { IdValidationDTO } from './validation/charging-station.id-param-validation-dto';
+import { ResponseUtils } from 'src/response-handling/response-utils';
 
 @Controller('charging_station')
 export class ChargingStationController {
@@ -20,29 +23,74 @@ export class ChargingStationController {
 
   @Get()
   async findAll(): Promise<ChargingStation[]> {
-    return this.chargingStationService.findAll();
+    const stations = await this.chargingStationService.findAll();
+
+    if (!stations) {
+      throw new NotFoundException('Stations not found');
+    }
+
+    return stations;
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string): Promise<ChargingStation> {
-    return this.chargingStationService.findById(id);
+  async findById(@Param() params: IdValidationDTO): Promise<ChargingStation> {
+    const station = await this.chargingStationService.findById(params.id);
+
+    if (!station) {
+      throw new NotFoundException('Station not found');
+    }
+
+    return station;
   }
 
   @Post()
   async create(@Body() chargingStationDTO: CreateChargingStationDTO) {
-    return await this.chargingStationService.create(chargingStationDTO);
+    const station =
+      await this.chargingStationService.create(chargingStationDTO);
+    return ResponseUtils.sendResponse(
+      201,
+      `Station ${station.id} created successfully!`,
+      station,
+    );
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    await this.chargingStationService.remove(id);
+  async remove(@Param() params: IdValidationDTO) {
+    const station = await this.chargingStationService.findById(params.id);
+
+    if (!station) {
+      throw new NotFoundException('Station not found');
+    }
+    try {
+      await this.chargingStationService.remove(params.id);
+      return ResponseUtils.sendResponse(
+        200,
+        `Station ${params.id} removed successfully!`,
+      );
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param() params: IdValidationDTO,
     @Body() updateChargingStation: UpdateChargingStationDTO,
   ) {
-    return this.chargingStationService.update(id, updateChargingStation);
+    const station = await this.chargingStationService.findById(params.id);
+
+    if (!station) {
+      throw new NotFoundException('Station not found');
+    }
+    const updatedStation = await this.chargingStationService.update(
+      params.id,
+      updateChargingStation,
+    );
+
+    return ResponseUtils.sendResponse(
+      200,
+      `Station ${updatedStation.id} updated successfully!`,
+      updatedStation,
+    );
   }
 }

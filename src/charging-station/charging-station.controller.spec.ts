@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ChargingStationController } from './charging-station.controller';
 import { ChargingStationService } from './charging-station.service';
 import { ChargingStation } from './charging-station.entity';
+import { NotFoundException } from '@nestjs/common';
+import { ResponseUtils } from 'src/response-handling/response-utils';
 
 describe('ChargingStationController', () => {
   let controller: ChargingStationController;
@@ -54,15 +56,39 @@ describe('ChargingStationController', () => {
       expect(result).toEqual([mockChargingStation]);
       expect(service.findAll).toHaveBeenCalled();
     });
+
+    it('Should return not found error', async () => {
+      //Arrang
+      jest.spyOn(mockChargingStationService, 'findAll').mockResolvedValue(null);
+
+      //Assert
+      expect(async () => {
+        await controller.findAll();
+      }).rejects.toThrow(NotFoundException);
+      expect(service.findAll).toHaveBeenCalled();
+    });
   });
 
   describe('Get charging station by Id (findById', () => {
     it('Should get charging station by Id successfully', async () => {
       //Act
-      const result = await controller.findById(mockChargingStation.id);
+      const result = await controller.findById(mockChargingStation.id as any);
 
       //Assert
       expect(result).toEqual(mockChargingStation);
+      expect(service.findById).toHaveBeenCalled();
+    });
+
+    it('Should return not found error', async () => {
+      //Arrange
+      jest
+        .spyOn(mockChargingStationService, 'findById')
+        .mockResolvedValue(null);
+
+      //Assert
+      expect(async () => {
+        await controller.findById(mockChargingStation.id as any);
+      }).rejects.toThrow(NotFoundException);
       expect(service.findById).toHaveBeenCalled();
     });
   });
@@ -80,7 +106,13 @@ describe('ChargingStationController', () => {
       const result = await controller.create(newChargingStation);
 
       //Assert
-      expect(result).toEqual(newChargingStation);
+      expect(result).toEqual(
+        ResponseUtils.sendResponse(
+          201,
+          `Station ${mockChargingStation.id} created successfully!`,
+          newChargingStation,
+        ),
+      );
       expect(service.findById).toHaveBeenCalled();
     });
   });
@@ -88,6 +120,9 @@ describe('ChargingStationController', () => {
   describe('Update charging station (update)', () => {
     it('Should update charging station successfully', async () => {
       //Arrange
+      jest
+        .spyOn(mockChargingStationService, 'findById')
+        .mockResolvedValue(mockChargingStation);
       const updatedChargingStation = {
         ...mockChargingStation,
         name: 'changed test name',
@@ -100,22 +135,63 @@ describe('ChargingStationController', () => {
 
       //Act
       const result = await controller.update(
-        mockChargingStation.id,
+        mockChargingStation.id as any,
         changeChargingStation,
       );
 
       //Assert
-      expect(result).toEqual(updatedChargingStation);
+      expect(result).toEqual(
+        ResponseUtils.sendResponse(
+          200,
+          `Station ${mockChargingStation.id} updated successfully!`,
+          updatedChargingStation,
+        ),
+      );
+      expect(service.update).toHaveBeenCalled();
+    });
+
+    it('Should return not found error', async () => {
+      //Arrange
+      const changeChargingStation = { name: 'changed test name' };
+      jest
+        .spyOn(mockChargingStationService, 'findById')
+        .mockResolvedValue(null);
+
+      //Assert
+      expect(async () => {
+        await controller.update(
+          mockChargingStation.id as any,
+          changeChargingStation,
+        );
+      }).rejects.toThrow(NotFoundException);
       expect(service.update).toHaveBeenCalled();
     });
   });
 
   describe('Delete charging station (delete0', () => {
     it('Should delete charging station successfully', async () => {
+      //Arrange
+      jest
+        .spyOn(mockChargingStationService, 'findById')
+        .mockResolvedValue(mockChargingStation);
+
       //Act
-      await controller.remove(mockChargingStation.id);
+      await controller.remove(mockChargingStation.id as any);
 
       //Assert
+      expect(service.remove).toHaveBeenCalled();
+    });
+
+    it('Should return not found error', async () => {
+      //Arrange
+      jest
+        .spyOn(mockChargingStationService, 'findById')
+        .mockResolvedValue(null);
+
+      //Assert
+      expect(async () => {
+        await controller.remove(mockChargingStation.id as any);
+      }).rejects.toThrow(NotFoundException);
       expect(service.remove).toHaveBeenCalled();
     });
   });

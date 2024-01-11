@@ -15,6 +15,10 @@ export class Connector {
   @ManyToOne(
     () => ChargingStation,
     (charging_station) => charging_station.connector,
+    {
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    },
   )
   charging_station: ChargingStation;
 }
