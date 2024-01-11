@@ -3,6 +3,7 @@ import { ChargingStationTypeController } from './charging-station-type.controlle
 import { ChargingStationTypeService } from './charging-station-type.service';
 import { ChargingStationType } from './charging-station-type.entity';
 import { NotFoundException } from '@nestjs/common';
+import { ResponseUtils } from 'src/response-handling/response-utils';
 
 describe('ChargingStationTypeController', () => {
   let controller: ChargingStationTypeController;
@@ -111,7 +112,13 @@ describe('ChargingStationTypeController', () => {
       const result = await controller.create(newChargingStation);
 
       //Assert
-      expect(result).toEqual(newChargingStation);
+      expect(result).toEqual(
+        ResponseUtils.sendResponse(
+          201,
+          `Station type ${mockChargingStationType.id} created successfully!`,
+          newChargingStation,
+        ),
+      );
       expect(service.findById).toHaveBeenCalled();
     });
   });
@@ -136,7 +143,13 @@ describe('ChargingStationTypeController', () => {
       );
 
       //Assert
-      expect(result).toEqual(updatedChargingStation);
+      expect(result).toEqual(
+        ResponseUtils.sendResponse(
+          200,
+          `Station type ${mockChargingStationType.id} updated successfully!`,
+          updatedChargingStation,
+        ),
+      );
       expect(service.update).toHaveBeenCalled();
     });
 

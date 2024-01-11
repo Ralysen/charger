@@ -46,7 +46,7 @@ export class ConnectorController {
     const connector = await this.connectorService.create(connectorDTO);
     return ResponseUtils.sendResponse(
       201,
-      `Station type ${connector.id} created successfully!`,
+      `Connector ${connector.id} created successfully!`,
       connector,
     );
   }

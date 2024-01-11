@@ -3,6 +3,7 @@ import { ConnectorController } from './connector.controller';
 import { ConnectorService } from './connector.service';
 import { Connector } from './connector.entity';
 import { NotFoundException } from '@nestjs/common';
+import { ResponseUtils } from 'src/response-handling/response-utils';
 
 describe('ConnectorController', () => {
   let controller: ConnectorController;
@@ -86,8 +87,8 @@ describe('ConnectorController', () => {
     });
   });
 
-  describe('Create new charging station (create)', () => {
-    it('Should create charging station successfully', async () => {
+  describe('Create new connector (create)', () => {
+    it('Should create connector successfully', async () => {
       //Arrange
       const newConnector = mockConnector;
 
@@ -99,13 +100,19 @@ describe('ConnectorController', () => {
       const result = await controller.create(newConnector);
 
       //Assert
-      expect(result).toEqual(newConnector);
+      expect(result).toEqual(
+        ResponseUtils.sendResponse(
+          201,
+          `Connector ${mockConnector.id} created successfully!`,
+          newConnector,
+        ),
+      );
       expect(service.findById).toHaveBeenCalled();
     });
   });
 
-  describe('Update charging station (update)', () => {
-    it('Should update charging station successfully', async () => {
+  describe('Update connector (update)', () => {
+    it('Should update connector successfully', async () => {
       //Arrange
       const updatedConnector = { ...mockConnector, name: 'changed test name' };
       const changeConnector = { name: 'changed test name' };
@@ -121,7 +128,13 @@ describe('ConnectorController', () => {
       );
 
       //Assert
-      expect(result).toEqual(updatedConnector);
+      expect(result).toEqual(
+        ResponseUtils.sendResponse(
+          200,
+          `Connector ${mockConnector.id} updated successfully!`,
+          updatedConnector,
+        ),
+      );
       expect(service.update).toHaveBeenCalled();
     });
 
