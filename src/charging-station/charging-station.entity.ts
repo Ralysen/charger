@@ -28,6 +28,10 @@ export class ChargingStation {
   @ManyToOne(
     () => ChargingStationType,
     (stationType) => stationType.charging_stations,
+    {
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE',
+    },
   )
   station_type: ChargingStationType;
 
