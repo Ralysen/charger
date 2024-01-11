@@ -9,11 +9,27 @@ import { ChargingStationTypeModule } from './charging-station-type/charging-stat
 import { ChargingStationType } from './charging-station-type/charging-station-type.entity';
 import { ConnectorModule } from './connector/connector.module';
 import { Connector } from './connector/connector.entity';
+import { LoggerModule } from 'nestjs-pino';
 
 dotenv.config();
 
 @Module({
   imports: [
+    LoggerModule.forRoot({
+      pinoHttp: {
+        customProps: () => ({
+          context: 'HTTP',
+        }),
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            singleLine: true,
+            colorize: true,
+            sync: false,
+          },
+        },
+      },
+    }),
     ChargingStationModule,
     ChargingStationTypeModule,
     ConnectorModule,
