@@ -13,6 +13,7 @@ import { ChargingStationType } from './charging-station-type.entity';
 import { CreateChargingStationTypeDTO } from './dto/create-charging-station-type.dto';
 import { UpdateChargingStationTypeDTO } from './dto/update-charging-station-type.dto';
 import { IdValidationDTO } from './validation/charging-station-type.param.validation';
+import { ResponseUtils } from 'src/response-handling/response-utils';
 
 @Controller('station_type')
 export class ChargingStationTypeController {
@@ -48,7 +49,14 @@ export class ChargingStationTypeController {
 
   @Post()
   async create(@Body() chargingStationTypeDTO: CreateChargingStationTypeDTO) {
-    return await this.chargingStationTypeService.create(chargingStationTypeDTO);
+    const stationType = await this.chargingStationTypeService.create(
+      chargingStationTypeDTO,
+    );
+    return ResponseUtils.sendResponse(
+      201,
+      `Station type ${stationType.id} created successfully!`,
+      stationType,
+    );
   }
 
   @Delete(':id')
@@ -56,10 +64,17 @@ export class ChargingStationTypeController {
     const station = await this.chargingStationTypeService.findById(params.id);
 
     if (!station) {
-      throw new NotFoundException('Station not found');
+      throw new NotFoundException('Station type not found');
     }
-
-    await this.chargingStationTypeService.remove(params.id);
+    try {
+      await this.chargingStationTypeService.remove(params.id);
+      return ResponseUtils.sendResponse(
+        200,
+        `Station type ${params.id} removed successfully!`,
+      );
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   @Put(':id')
@@ -73,9 +88,13 @@ export class ChargingStationTypeController {
     );
 
     if (!stationType) {
-      throw new NotFoundException('Station not found');
+      throw new NotFoundException('Station type not found');
     }
 
-    return stationType;
+    return ResponseUtils.sendResponse(
+      200,
+      `Station type ${stationType.id} updated successfully!`,
+      stationType,
+    );
   }
 }

@@ -13,6 +13,7 @@ import { ChargingStation } from './charging-station.entity';
 import { CreateChargingStationDTO } from './dto/create-charging-station.dto';
 import { UpdateChargingStationDTO } from './dto/update-charging-station.dto';
 import { IdValidationDTO } from './validation/charging-station.id-param-validation-dto';
+import { ResponseUtils } from 'src/response-handling/response-utils';
 
 @Controller('charging_station')
 export class ChargingStationController {
@@ -44,7 +45,13 @@ export class ChargingStationController {
 
   @Post()
   async create(@Body() chargingStationDTO: CreateChargingStationDTO) {
-    return await this.chargingStationService.create(chargingStationDTO);
+    const station =
+      await this.chargingStationService.create(chargingStationDTO);
+    return ResponseUtils.sendResponse(
+      201,
+      `Station ${station.id} created successfully!`,
+      station,
+    );
   }
 
   @Delete(':id')
@@ -54,8 +61,15 @@ export class ChargingStationController {
     if (!station) {
       throw new NotFoundException('Station not found');
     }
-
-    await this.chargingStationService.remove(params.id);
+    try {
+      await this.chargingStationService.remove(params.id);
+      return ResponseUtils.sendResponse(
+        200,
+        `Station ${params.id} removed successfully!`,
+      );
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   @Put(':id')
@@ -68,10 +82,15 @@ export class ChargingStationController {
     if (!station) {
       throw new NotFoundException('Station not found');
     }
-
-    return await this.chargingStationService.update(
+    const updatedStation = await this.chargingStationService.update(
       params.id,
       updateChargingStation,
+    );
+
+    return ResponseUtils.sendResponse(
+      200,
+      `Station ${updatedStation.id} updated successfully!`,
+      updatedStation,
     );
   }
 }

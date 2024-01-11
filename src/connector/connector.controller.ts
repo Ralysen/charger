@@ -13,6 +13,7 @@ import { Connector } from './connector.entity';
 import { CreateConnectorDTO } from './dto/create-connector.dto';
 import { UpdateConnectorDTO } from './dto/update-connector.dto';
 import { IdValidationDTO } from './validation/connector.param.validation';
+import { ResponseUtils } from 'src/response-handling/response-utils';
 
 @Controller('connector')
 export class ConnectorController {
@@ -42,7 +43,12 @@ export class ConnectorController {
 
   @Post()
   async create(@Body() connectorDTO: CreateConnectorDTO) {
-    return await this.connectorService.create(connectorDTO);
+    const connector = await this.connectorService.create(connectorDTO);
+    return ResponseUtils.sendResponse(
+      201,
+      `Station type ${connector.id} created successfully!`,
+      connector,
+    );
   }
 
   @Delete(':id')
@@ -50,10 +56,18 @@ export class ConnectorController {
     const station = await this.connectorService.findById(params.id);
 
     if (!station) {
-      throw new NotFoundException('Station not found');
+      throw new NotFoundException('Connector not found');
     }
 
-    await this.connectorService.remove(params.id);
+    try {
+      await this.connectorService.remove(params.id);
+      return ResponseUtils.sendResponse(
+        200,
+        `Connector ${params.id} removed successfully!`,
+      );
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   @Put(':id')
@@ -67,8 +81,12 @@ export class ConnectorController {
     );
 
     if (!connector) {
-      throw new NotFoundException('Station not found');
+      throw new NotFoundException('Connector not found');
     }
-    return connector;
+    return ResponseUtils.sendResponse(
+      200,
+      `Connector ${connector.id} updated successfully!`,
+      connector,
+    );
   }
 }
