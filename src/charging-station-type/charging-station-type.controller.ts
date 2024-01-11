@@ -53,6 +53,12 @@ export class ChargingStationTypeController {
 
   @Delete(':id')
   async remove(@Param() params: IdValidationDTO) {
+    const station = await this.chargingStationTypeService.findById(params.id);
+
+    if (!station) {
+      throw new NotFoundException('Station not found');
+    }
+
     await this.chargingStationTypeService.remove(params.id);
   }
 
@@ -61,9 +67,15 @@ export class ChargingStationTypeController {
     @Param() params: IdValidationDTO,
     @Body() updateChargingStationType: UpdateChargingStationTypeDTO,
   ) {
-    return await this.chargingStationTypeService.update(
+    const stationType = await this.chargingStationTypeService.update(
       params.id,
       updateChargingStationType,
     );
+
+    if (!stationType) {
+      throw new NotFoundException('Station not found');
+    }
+
+    return stationType;
   }
 }

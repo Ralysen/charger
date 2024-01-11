@@ -47,6 +47,12 @@ export class ConnectorController {
 
   @Delete(':id')
   async remove(@Param() params: IdValidationDTO) {
+    const station = await this.connectorService.findById(params.id);
+
+    if (!station) {
+      throw new NotFoundException('Station not found');
+    }
+
     await this.connectorService.remove(params.id);
   }
 
@@ -55,6 +61,14 @@ export class ConnectorController {
     @Param() params: IdValidationDTO,
     @Body() updateConnectorDTO: UpdateConnectorDTO,
   ) {
-    return await this.connectorService.update(params.id, updateConnectorDTO);
+    const connector = await this.connectorService.update(
+      params.id,
+      updateConnectorDTO,
+    );
+
+    if (!connector) {
+      throw new NotFoundException('Station not found');
+    }
+    return connector;
   }
 }
