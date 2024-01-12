@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  InternalServerErrorException,
   NotFoundException,
   Param,
   Post,
@@ -73,7 +74,7 @@ export class ChargingStationTypeController {
         `Station type ${params.id} removed successfully!`,
       );
     } catch (e) {
-      throw new Error(e);
+      throw new InternalServerErrorException(e);
     }
   }
 
