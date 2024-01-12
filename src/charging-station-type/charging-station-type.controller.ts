@@ -15,11 +15,13 @@ import { CreateChargingStationTypeDTO } from './dto/create-charging-station-type
 import { UpdateChargingStationTypeDTO } from './dto/update-charging-station-type.dto';
 import { IdValidationDTO } from './validation/charging-station-type.param.validation';
 import { ResponseUtils } from 'src/response-handling/response-utils';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 
 @Controller('station_type')
 export class ChargingStationTypeController {
   constructor(
     private readonly chargingStationTypeService: ChargingStationTypeService,
+    private readonly amqpConnection: AmqpConnection
   ) {}
 
   @Get()
@@ -92,6 +94,8 @@ export class ChargingStationTypeController {
       throw new NotFoundException('Station type not found');
     }
 
+    this.amqpConnection.publish('exchange1', 'routing-key', { stationType });
+    
     return ResponseUtils.sendResponse(
       200,
       `Station type ${stationType.id} updated successfully!`,
