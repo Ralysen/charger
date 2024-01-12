@@ -6,10 +6,7 @@ import { ChargingStationService } from './charging-station.service';
 import { RabbitmqGlobalModule } from 'src/rabbitmq-global-module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ChargingStation]),
-    RabbitmqGlobalModule
-  ],
+  imports: [TypeOrmModule.forFeature([ChargingStation]), RabbitmqGlobalModule],
   controllers: [ChargingStationController],
   providers: [ChargingStationService],
 })

@@ -21,7 +21,7 @@ import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 export class ChargingStationTypeController {
   constructor(
     private readonly chargingStationTypeService: ChargingStationTypeService,
-    private readonly amqpConnection: AmqpConnection
+    private readonly amqpConnection: AmqpConnection,
   ) {}
 
   @Get()
@@ -95,7 +95,7 @@ export class ChargingStationTypeController {
     }
 
     this.amqpConnection.publish('exchange1', 'routing-key', { stationType });
-    
+
     return ResponseUtils.sendResponse(
       200,
       `Station type ${stationType.id} updated successfully!`,

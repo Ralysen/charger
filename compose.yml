@@ -15,6 +15,19 @@ services:
           interval: 5s
           timeout: 5s
           retries: 3
+  rabbitmq:
+    image: rabbitmq:3.12.12-management
+    restart: always
+    container_name: rabbitmq
+    hostname: 'rabbitmq'
+    ports: 
+            - 5672:5672
+            - 15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 4s
+      retries: 3
   app:
     build:
       context: .
@@ -27,9 +40,13 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=qWERTY1@
       - DB_HOST=db
+      - CLOUDAMQP_URL=amqp://rabbitmq:5672
     ports:
       - '3000:3000'
+    restart: on-failure
     depends_on:
       db:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
         

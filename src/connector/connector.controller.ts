@@ -22,7 +22,7 @@ export class ConnectorController {
   constructor(
     private readonly connectorService: ConnectorService,
     private readonly amqpConnection: AmqpConnection,
-    ) {}
+  ) {}
 
   @Get()
   async findAll(): Promise<Connector[]> {
