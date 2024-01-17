@@ -3,7 +3,7 @@ import { ChargingStationController } from './charging-station.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ChargingStation } from './charging-station.entity';
 import { ChargingStationService } from './charging-station.service';
-import { RabbitmqGlobalModule } from 'src/rabbitmq-global-module';
+import { RabbitmqGlobalModule } from 'src/rabbit-mq/rabbit-mq.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ChargingStation]), RabbitmqGlobalModule],

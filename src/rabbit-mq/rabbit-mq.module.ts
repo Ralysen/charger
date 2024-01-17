@@ -9,13 +9,13 @@ dotenv.config();
     RabbitMQModule.forRoot(RabbitMQModule, {
       queues: [
         {
-          name: 'test',
+          name: process.env.RABBIT_MQ_QUEUE || 'test',
         },
       ],
       exchanges: [
         {
-          name: 'exchange1',
-          type: 'topic',
+          name: process.env.RABBIT_MQ_EXCHANGE || 'exchange1',
+          type: process.env.RABBIT_MQ_EXCHANGE_TYPE || 'topic',
         },
       ],
       uri: process.env.CLOUDAMQP_URL,

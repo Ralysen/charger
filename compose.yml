@@ -41,6 +41,9 @@ services:
       - DB_PASSWORD=qWERTY1@
       - DB_HOST=db
       - CLOUDAMQP_URL=amqp://rabbitmq:5672
+      - RABBIT_MQ_QUEUE=test
+      - RABBIT_MQ_EXCHANGE=exchange1
+      - RABBIT_MQ_EXCHANGE_TYPE=topic
     ports:
       - '3000:3000'
     restart: on-failure
