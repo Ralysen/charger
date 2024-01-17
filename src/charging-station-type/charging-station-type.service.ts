@@ -4,12 +4,14 @@ import { ChargingStationType } from './charging-station-type.entity';
 import { Repository } from 'typeorm';
 import { CreateChargingStationTypeDTO } from './dto/create-charging-station-type.dto';
 import { UpdateChargingStationTypeDTO } from './dto/update-charging-station-type.dto';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 
 @Injectable()
 export class ChargingStationTypeService {
   constructor(
     @InjectRepository(ChargingStationType)
     private chargingStationTypeRepo: Repository<ChargingStationType>,
+    private readonly amqpConnection: AmqpConnection,
   ) {}
 
   async findAll(): Promise<ChargingStationType[]> {
@@ -31,6 +33,9 @@ export class ChargingStationTypeService {
   async update(id: string, body: UpdateChargingStationTypeDTO) {
     const stationType = await this.chargingStationTypeRepo.findOneBy({ id });
     this.chargingStationTypeRepo.merge(stationType, body);
+
+    this.amqpConnection.publish('exchange1', 'routing-key', { stationType });
+
     return await this.chargingStationTypeRepo.save(stationType);
   }
 }

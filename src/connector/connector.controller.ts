@@ -15,13 +15,11 @@ import { CreateConnectorDTO } from './dto/create-connector.dto';
 import { UpdateConnectorDTO } from './dto/update-connector.dto';
 import { IdValidationDTO } from './validation/connector.param.validation';
 import { ResponseUtils } from 'src/response-handling/response-utils';
-import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 
 @Controller('connector')
 export class ConnectorController {
   constructor(
     private readonly connectorService: ConnectorService,
-    private readonly amqpConnection: AmqpConnection,
   ) {}
 
   @Get()
@@ -88,8 +86,6 @@ export class ConnectorController {
     if (!connector) {
       throw new NotFoundException('Connector not found');
     }
-
-    this.amqpConnection.publish('exchange1', 'routing-key', { connector });
 
     return ResponseUtils.sendResponse(
       200,

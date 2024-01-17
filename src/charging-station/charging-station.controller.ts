@@ -15,13 +15,11 @@ import { CreateChargingStationDTO } from './dto/create-charging-station.dto';
 import { UpdateChargingStationDTO } from './dto/update-charging-station.dto';
 import { IdValidationDTO } from './validation/charging-station.id-param-validation-dto';
 import { ResponseUtils } from 'src/response-handling/response-utils';
-import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 
 @Controller('charging_station')
 export class ChargingStationController {
   constructor(
     private readonly chargingStationService: ChargingStationService,
-    private readonly amqpConnection: AmqpConnection,
   ) {}
 
   @Get()
@@ -89,7 +87,6 @@ export class ChargingStationController {
       updateChargingStation,
     );
 
-    this.amqpConnection.publish('exchange1', 'routing-key', { updatedStation });
     return ResponseUtils.sendResponse(
       200,
       `Station ${updatedStation.id} updated successfully!`,
