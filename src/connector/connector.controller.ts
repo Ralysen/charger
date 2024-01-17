@@ -18,9 +18,7 @@ import { ResponseUtils } from 'src/response-handling/response-utils';
 
 @Controller('connector')
 export class ConnectorController {
-  constructor(
-    private readonly connectorService: ConnectorService,
-  ) {}
+  constructor(private readonly connectorService: ConnectorService) {}
 
   @Get()
   async findAll(): Promise<Connector[]> {
