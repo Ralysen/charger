@@ -40,7 +40,10 @@ export class ChargingStationService {
     this.amqpConnection.publish(
       process.env.RABBIT_MQ_EXCHANGE || 'exchange1',
       process.env.RABBIT_MQ_ROUTING_KEY || 'routing-key',
-      { station },
+      {
+        type: 'charging_station',
+        body: station,
+      },
     );
 
     return await this.chargingStationRepo.save(station);

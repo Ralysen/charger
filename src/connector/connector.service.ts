@@ -40,7 +40,10 @@ export class ConnectorService {
     this.amqpConnection.publish(
       process.env.RABBIT_MQ_EXCHANGE || 'exchange1',
       process.env.RABBIT_MQ_ROUTING_KEY || 'routing-key',
-      { connector },
+      {
+        type: 'connector',
+        body: connector,
+      },
     );
 
     return await this.connectorRepo.save(connector);
