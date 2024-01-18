@@ -38,9 +38,9 @@ export class ChargingStationTypeService {
     this.chargingStationTypeRepo.merge(stationType, body);
 
     this.amqpConnection.publish(
-      process.env.RABBIT_MQ_EXCHANGE || 'exchange1', 
-      process.env.RABBIT_MQ_ROUTING_KEY || 'routing-key', 
-      { stationType }
+      process.env.RABBIT_MQ_EXCHANGE || 'exchange1',
+      process.env.RABBIT_MQ_ROUTING_KEY || 'routing-key',
+      { stationType },
     );
 
     return await this.chargingStationTypeRepo.save(stationType);

@@ -38,9 +38,9 @@ export class ConnectorService {
     this.connectorRepo.merge(connector, body);
 
     this.amqpConnection.publish(
-      process.env.RABBIT_MQ_EXCHANGE || 'exchange1', 
+      process.env.RABBIT_MQ_EXCHANGE || 'exchange1',
       process.env.RABBIT_MQ_ROUTING_KEY || 'routing-key',
-      { connector }
+      { connector },
     );
 
     return await this.connectorRepo.save(connector);
