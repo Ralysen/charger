@@ -5,6 +5,9 @@ import { Repository } from 'typeorm';
 import { CreateConnectorDTO } from './dto/create-connector.dto';
 import { UpdateConnectorDTO } from './dto/update-connector.dto';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Injectable()
 export class ConnectorService {
@@ -34,7 +37,11 @@ export class ConnectorService {
     const connector = await this.connectorRepo.findOneBy({ id });
     this.connectorRepo.merge(connector, body);
 
-    this.amqpConnection.publish('exchange1', 'routing-key', { connector });
+    this.amqpConnection.publish(
+      process.env.RABBIT_MQ_EXCHANGE || 'exchange1', 
+      process.env.RABBIT_MQ_ROUTING_KEY || 'routing-key',
+      { connector }
+    );
 
     return await this.connectorRepo.save(connector);
   }

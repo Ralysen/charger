@@ -5,6 +5,9 @@ import { Repository } from 'typeorm';
 import { CreateChargingStationDTO } from './dto/create-charging-station.dto';
 import { UpdateChargingStationDTO } from './dto/update-charging-station.dto';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Injectable()
 export class ChargingStationService {
@@ -34,7 +37,11 @@ export class ChargingStationService {
     const station = await this.chargingStationRepo.findOneBy({ id });
     this.chargingStationRepo.merge(station, body);
 
-    this.amqpConnection.publish('exchange1', 'routing-key', { station });
+    this.amqpConnection.publish(
+      process.env.RABBIT_MQ_EXCHANGE || 'exchange1', 
+      process.env.RABBIT_MQ_ROUTING_KEY || 'routing-key',
+      { station }
+    );
 
     return await this.chargingStationRepo.save(station);
   }
