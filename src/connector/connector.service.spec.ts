@@ -5,6 +5,8 @@ import { ConnectorService } from './connector.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateConnectorDTO } from './dto/create-connector.dto';
 import { UpdateConnectorDTO } from './dto/update-connector.dto';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { mock } from 'jest-mock-extended';
 
 describe('ConnectorService', () => {
   let service: ConnectorService;
@@ -31,6 +33,10 @@ describe('ConnectorService', () => {
         {
           provide: getRepositoryToken(Connector),
           useValue: mockConnectorRepo,
+        },
+        {
+          provide: AmqpConnection,
+          useValue: mock<AmqpConnection>(),
         },
       ],
     }).compile();

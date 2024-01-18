@@ -5,6 +5,8 @@ import { ChargingStation } from './charging-station.entity';
 import { ChargingStationController } from './charging-station.controller';
 import { CreateChargingStationDTO } from './dto/create-charging-station.dto';
 import { UpdateChargingStationDTO } from './dto/update-charging-station.dto';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { mock } from 'jest-mock-extended';
 
 describe('ChargingStationService', () => {
   let service: ChargingStationService;
@@ -33,6 +35,10 @@ describe('ChargingStationService', () => {
         {
           provide: getRepositoryToken(ChargingStation),
           useValue: mockChargingStationRepo,
+        },
+        {
+          provide: AmqpConnection,
+          useValue: mock<AmqpConnection>(),
         },
       ],
     }).compile();
