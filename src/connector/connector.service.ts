@@ -6,6 +6,7 @@ import { CreateConnectorDTO } from './dto/create-connector.dto';
 import { UpdateConnectorDTO } from './dto/update-connector.dto';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import * as dotenv from 'dotenv';
+import { ConfigService } from '@nestjs/config';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ export class ConnectorService {
     @InjectRepository(Connector)
     private connectorRepo: Repository<Connector>,
     private readonly amqpConnection: AmqpConnection,
+    private configService: ConfigService,
   ) {}
 
   async findAll(): Promise<Connector[]> {
@@ -38,8 +40,8 @@ export class ConnectorService {
     this.connectorRepo.merge(connector, body);
 
     this.amqpConnection.publish(
-      process.env.RABBIT_MQ_EXCHANGE || 'exchange1',
-      process.env.RABBIT_MQ_ROUTING_KEY || 'routing-key',
+      this.configService.get<string>('rabbitmq.exchange'),
+      this.configService.get<string>('rabbitmq.topic'),
       {
         type: 'connector',
         body: connector,

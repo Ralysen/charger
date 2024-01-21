@@ -8,11 +8,17 @@ import { ChargingStationType } from './charging-station-type/charging-station-ty
 import { ConnectorModule } from './connector/connector.module';
 import { Connector } from './connector/connector.entity';
 import { LoggerModule } from 'nestjs-pino';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import configuration from './config/configuration';
 
 dotenv.config();
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+    }),
     LoggerModule.forRoot({
       pinoHttp: {
         customProps: () => ({
@@ -31,16 +37,20 @@ dotenv.config();
     ChargingStationModule,
     ChargingStationTypeModule,
     ConnectorModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST || 'localhost',
-      port: Number(process.env.DB_PORT) || 5432,
-      username: process.env.DB_USER || 'root',
-      password: process.env.DB_PASSWORD || 'root',
-      database: process.env.DB_NAME || 'postgres',
-      synchronize: true,
-      logging: false,
-      entities: [ChargingStation, ChargingStationType, Connector],
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres' as 'postgres',
+        host: configService.get<string>('database.host'),
+        port: parseInt(configService.get<string>('database.port')),
+        username: configService.get<string>('database.username'),
+        password: configService.get<string>('database.password'),
+        database: configService.get<string>('database.database'),
+        synchronize: true,
+        logging: false,
+        entities: [ChargingStation, ChargingStationType, Connector],
+      }),
+      inject: [ConfigService],
     }),
   ],
 })
