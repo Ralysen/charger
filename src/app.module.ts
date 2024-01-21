@@ -40,7 +40,7 @@ dotenv.config();
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        type: 'postgres' as 'postgres',
+        type: 'postgres',
         host: configService.get<string>('database.host'),
         port: parseInt(configService.get<string>('database.port')),
         username: configService.get<string>('database.username'),

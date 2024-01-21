@@ -7,7 +7,6 @@ dotenv.config();
 @Global()
 @Module({
   imports: [
-    
     RabbitMQModule.forRootAsync(RabbitMQModule, {
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
