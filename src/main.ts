@@ -3,8 +3,10 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './response-handling/http-exception-filter';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
+  let configService: ConfigService;
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
@@ -14,6 +16,6 @@ async function bootstrap() {
       enableDebugMessages: true,
     }),
   );
-  await app.listen(3000);
+  await app.listen(configService.get<string>('port'));
 }
 bootstrap();
