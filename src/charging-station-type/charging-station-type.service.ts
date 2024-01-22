@@ -6,6 +6,7 @@ import { CreateChargingStationTypeDTO } from './dto/create-charging-station-type
 import { UpdateChargingStationTypeDTO } from './dto/update-charging-station-type.dto';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import * as dotenv from 'dotenv';
+import { ConfigService } from '@nestjs/config';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ export class ChargingStationTypeService {
     @InjectRepository(ChargingStationType)
     private chargingStationTypeRepo: Repository<ChargingStationType>,
     private readonly amqpConnection: AmqpConnection,
+    private configService: ConfigService,
   ) {}
 
   async findAll(): Promise<ChargingStationType[]> {
@@ -38,8 +40,8 @@ export class ChargingStationTypeService {
     this.chargingStationTypeRepo.merge(stationType, body);
 
     this.amqpConnection.publish(
-      process.env.RABBIT_MQ_EXCHANGE || 'exchange1',
-      process.env.RABBIT_MQ_ROUTING_KEY || 'routing-key',
+      this.configService.get<string>('rabbitmq.exchange'),
+      this.configService.get<string>('rabbitmq.topic'),
       {
         type: 'station_type',
         body: stationType,
