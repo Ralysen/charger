@@ -5,10 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateConnectorDTO } from './dto/create-connector.dto';
 import { UpdateConnectorDTO } from './dto/update-connector.dto';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import * as dotenv from 'dotenv';
 import { ConfigService } from '@nestjs/config';
-
-dotenv.config();
 
 @Injectable()
 export class ConnectorService {
@@ -41,7 +38,7 @@ export class ConnectorService {
 
     this.amqpConnection.publish(
       this.configService.get<string>('rabbitmq.exchange'),
-      this.configService.get<string>('rabbitmq.topic'),
+      this.configService.get<string>('rabbitmq.routing_key'),
       {
         type: 'connector',
         body: connector,

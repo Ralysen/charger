@@ -5,10 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateChargingStationDTO } from './dto/create-charging-station.dto';
 import { UpdateChargingStationDTO } from './dto/update-charging-station.dto';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import * as dotenv from 'dotenv';
 import { ConfigService } from '@nestjs/config';
-
-dotenv.config();
 
 @Injectable()
 export class ChargingStationService {
@@ -41,7 +38,7 @@ export class ChargingStationService {
 
     this.amqpConnection.publish(
       this.configService.get<string>('rabbitmq.exchange'),
-      this.configService.get<string>('rabbitmq.topic'),
+      this.configService.get<string>('rabbitmq.routing_key'),
       {
         type: 'charging_station',
         body: station,

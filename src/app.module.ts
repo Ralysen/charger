@@ -39,6 +39,7 @@ dotenv.config();
     ConnectorModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get<string>('database.host'),
@@ -50,7 +51,6 @@ dotenv.config();
         logging: false,
         entities: [ChargingStation, ChargingStationType, Connector],
       }),
-      inject: [ConfigService],
     }),
   ],
 })

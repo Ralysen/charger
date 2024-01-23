@@ -9,7 +9,8 @@ dotenv.config();
   imports: [
     RabbitMQModule.forRootAsync(RabbitMQModule, {
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
         queues: [
           {
             name: configService.get<string>('rabbitmq.queue'),
@@ -24,7 +25,6 @@ dotenv.config();
         uri: configService.get<string>('rabbitmq.url'),
         enableControllerDiscovery: true,
       }),
-      inject: [ConfigModule],
     }),
   ],
   exports: [RabbitMQModule],

@@ -6,8 +6,8 @@ import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
-  let configService: ConfigService;
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  const configService = app.get(ConfigService);
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
@@ -16,6 +16,6 @@ async function bootstrap() {
       enableDebugMessages: true,
     }),
   );
-  await app.listen(configService.get<string>('port'));
+  await app.listen(parseInt(configService.get<string>('port')));
 }
 bootstrap();
